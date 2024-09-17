@@ -76,15 +76,6 @@ globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     typeFilter: "none"
-appearance:
-  pipelineGraphView:
-    showGraphOnBuildPage: false
-    showGraphOnJobPage: false
-  prism:
-    theme: DARK
-  themeManager:
-    disableUserThemes: false
-    theme: "darkSystem"
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
