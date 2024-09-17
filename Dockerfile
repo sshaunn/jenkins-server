@@ -18,7 +18,7 @@ RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-c
 
 # Install Go
 RUN curl -OL https://golang.org/dl/go1.22.7.linux-amd64.tar.gz && \
-    tar -C /usr/local -xzf go1.17.linux-amd64.tar.gz && \
+    tar -C /usr/local -xzf go1.22.7.linux-amd64.tar.gz && \
     rm go1.22.7.linux-amd64.tar.gz
 
 # Set up Docker socket access
