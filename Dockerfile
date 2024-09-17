@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     curl \
     gnupg \
     lsb-release \
-    docker.io
+    docker.io \
+    sudo
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
@@ -31,17 +32,9 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 
 # Copy Configuration as Code file
 COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
-
+COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 # Install Jenkins plugins
-RUN jenkins-plugin-cli --plugins \
-    workflow-aggregator \
-    git \
-    configuration-as-code \
-    job-dsl \
-    blueocean \
-    docker-workflow \
-    golang \
-    pipeline-stage-view
+RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
 # Set permissions
 RUN chown -R jenkins:jenkins /var/jenkins_home
