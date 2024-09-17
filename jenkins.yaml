@@ -144,8 +144,6 @@ unclassified:
     charset: "UTF-8"
     useSsl: false
     useTls: false
-  mavenModuleSet:
-    localRepository: "default"
   pollSCM:
     pollingThreadCount: 10
   scmGit:
@@ -168,7 +166,7 @@ tool:
       - installSource:
           installers:
           - fromDocker:
-              version: "latest"
+              version: "24.0.5"
   git:
     installations:
     - home: "git"
