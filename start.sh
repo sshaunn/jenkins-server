@@ -5,7 +5,17 @@ if ! getent group docker > /dev/null 2>&1; then
     sudo groupadd docker
 fi
 
+check_success() {
+  if [ $? -ne 0 ]; then
+      echo "Error: $1"
+      exit 1
+  fi
+}
+
 DOCKER_GID=$(getent group docker | cut -d: -f3)
+
+docker build -t shaun/jenkins:1.0.0 .
+check_success "failed to build jenkins docker image"
 
 docker run -d \
     --name jenkins \
@@ -19,4 +29,4 @@ docker run -d \
     -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=myjenkins.loca.lt" \
     --group-add ${DOCKER_GID} \
     --restart always \
-    jenkins/jenkins:lts
+    shaun/jenkins:1.0.0
