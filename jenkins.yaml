@@ -132,7 +132,7 @@ unclassified:
   gitHubConfiguration:
     apiRateLimitChecker: ThrottleForNormalize
   gitHubPluginConfig:
-    hookUrl: "http://192.168.0.65:8080/github-webhook/"
+    hookUrl: "http://192.168.0.66:8080/github-webhook/"
   globalTimeOutConfiguration:
     operations:
     - "abortOperation"
@@ -189,7 +189,22 @@ tool:
       - installSource:
           installers:
           - golangInstaller:
-              id: "1.23.1"
+              id: "1.22.7"
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
+clouds:
+    - docker:
+        name: "docker"
+        dockerApi:
+          dockerHost:
+            uri: "unix:///var/run/docker.sock"
+        templates:
+          - labelString: "docker-agent"
+            dockerTemplateBase:
+              image: "jenkins/jenkins:lts"
+            remoteFs: "/var/jenkins_home"
+            connector:
+              attach:
+                user: "jenkins"
+            instanceCapStr: "10"
