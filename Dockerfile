@@ -22,7 +22,7 @@ RUN curl -OL https://golang.org/dl/go1.22.7.linux-amd64.tar.gz && \
     rm go1.22.7.linux-amd64.tar.gz
 
 # Set up Docker socket access
-RUN groupadd -g 999 docker && usermod -aG docker jenkins
+RUN usermod -aG docker jenkins
 
 # Set environment variables
 ENV CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
