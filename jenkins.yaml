@@ -182,18 +182,3 @@ tool:
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
-clouds:
-    - docker:
-        name: "docker"
-        dockerApi:
-          dockerHost:
-            uri: "unix:///var/run/docker.sock"
-        templates:
-          - labelString: "docker-agent"
-            dockerTemplateBase:
-              image: "jenkins/jenkins:lts"
-            remoteFs: "/var/jenkins_home"
-            connector:
-              attach:
-                user: "jenkins"
-            instanceCapStr: "10"
