@@ -6,4 +6,4 @@ docker rm jenkins
 
 docker rmi shaun/jenkins:1.0.0
 
-docker system prune -a || true
+echo 'y' | docker system prune -a
