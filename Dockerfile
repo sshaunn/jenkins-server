@@ -16,12 +16,12 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 # Set up the stable Docker repository
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Install Docker 25.0.5
 RUN apt-get update && \
-    apt-get install -y docker-ce=5:25.0.5-1~ubuntu.$(lsb_release -rs)~$(lsb_release -cs) \
-    docker-ce-cli=5:25.0.5-1~ubuntu.$(lsb_release -rs)~$(lsb_release -cs) \
+    apt-get install -y docker-ce=5:25.0.5-1~debian.$(lsb_release -rs)~$(lsb_release -cs) \
+    docker-ce-cli=5:25.0.5-1~debian.$(lsb_release -rs)~$(lsb_release -cs) \
     containerd.io \
     docker-buildx-plugin \
     docker-compose-plugin
