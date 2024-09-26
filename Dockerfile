@@ -39,6 +39,9 @@ RUN curl -OL https://golang.org/dl/go1.22.7.linux-amd64.tar.gz && \
 RUN usermod -aG docker jenkins \
     && usermod -u 1000 jenkins \
     && groupmod -g 1000 jenkins
+RUN if [ "$(id -u jenkins)" != "1000" ]; then usermod -u 1000 jenkins; fi
+RUN if [ "$(getent group jenkins | cut -d: -f3)" != "1000" ]; then groupmod -g 1000 jenkins; fi
+RUN chown -R jenkins:jenkins /var/jenkins_home
 
 # Set environment variables
 ENV CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
