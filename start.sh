@@ -18,6 +18,8 @@ docker build -t shaun/jenkins:1.0.0 .
 check_success "failed to build jenkins docker image"
 
 docker run -d \
+    --user root \
+    -v /var/jenkins_home:/var/jenkins_home:rw \
     --name jenkins \
     --privileged \
     -p 8080:8080 -p 50000:50000 \

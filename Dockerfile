@@ -1,4 +1,4 @@
-FROM jenkins/jenkins:lts
+FROM jenkins/jenkins:2.462.1-lts
 
 USER root
 
@@ -35,7 +35,7 @@ ENV PATH="/usr/local/go/bin:${PATH}"
 COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 # Install Jenkins plugins
-RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
+RUN for i in {1..3}; do jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt && break || sleep 5; done
 
 # Set permissions
 RUN chown -R jenkins:jenkins /var/jenkins_home
