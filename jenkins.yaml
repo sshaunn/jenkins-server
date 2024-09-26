@@ -133,8 +133,6 @@ unclassified:
     checkForBuildAgentErrors: false
     enabled: false
     enforceUrl: false
-    injectCcudExtension: false
-    injectMavenExtension: false
   junitTestResultStorage:
     storage: "file"
   location:
