@@ -22,6 +22,7 @@ docker run -d \
     --privileged \
     -p 8080:8080 -p 50000:50000 \
     -v jenkins_home:/var/jenkins_home \
+    --env-file .env \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $(pwd)/jenkins.yaml:/var/jenkins_home/jenkins.yaml \
     -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \

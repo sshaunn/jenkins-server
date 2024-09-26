@@ -3,11 +3,10 @@ credentials:
     domainCredentials:
     - credentials:
       - usernamePassword:
-          description: "this credential access to remote repo"
           id: "git_credential"
-          password: "{AQAAABAAAAAwBrj8mNXpXUt8CJI9IpAxV+pTyUXT0Jex7Ld3R3tJyqwxXWX7V5npEw5EtbZUAZ7LzN6FUJkRqWoyqHzHsgXtNA==}"
+          password: "${GITHUB_TOKEN}"
           scope: GLOBAL
-          username: "sshaunn"
+          username: "${GITHUB_USERNAME}"
           usernameSecret: true
 jenkins:
   agentProtocols:
