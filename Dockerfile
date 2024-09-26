@@ -38,7 +38,8 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN for i in {1..3}; do jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt && break || sleep 5; done
 
 # Set permissions
-RUN chown -R jenkins:jenkins /var/jenkins_home
+RUN chown -R jenkins:jenkins /var/jenkins_home && \
+    chmod -R 755 /var/jenkins_home
 
 USER jenkins
 
