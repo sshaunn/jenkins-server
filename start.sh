@@ -66,6 +66,6 @@ docker run -d \
     jenkins:local
 
 # Set proper permissions for Docker socket
-sudo chmod 666 /var/run/docker.sock
+sudo_command chmod 666 /var/run/docker.sock
 
 rm /tmp/sudo_pass.sh

@@ -49,9 +49,6 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 # Install Jenkins plugins
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
-# Set proper permissions for Docker socket
-RUN chmod 666 /var/run/docker.sock
-
 USER jenkins
 ENTRYPOINT ["jenkins.sh"]
 
