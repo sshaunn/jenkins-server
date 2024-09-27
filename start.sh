@@ -7,14 +7,24 @@ check_success() {
   fi
 }
 
-docker build -t shaun/jenkins:1.0.0 .
+docker build -t custom-jenkins:local .
 check_success "failed to build jenkins docker image"
 
-docker-compose build
-check_success "failed to build jenkins docker image"
+docker run -d \
+  --name jenkins \
+  -p 8080:8080 \
+  -p 50000:50000 \
+  -v jenkins_home:/var/jenkins_home \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -e GIT_URL_DOCKER_IMAGE_JENKINS=https://github.com/your-repo/jenkins-config.git \
+  -e GIT_BRANCH_DOCKER_IMAGE_JENKINS=main \
+  -e GIT_COMMIT_DOCKER_IMAGE_JENKINS=latest \
+  -e GITHUB_USERNAME=your-username \
+  -e JENKINS_VERSION=2.462.1-lts \
+  -e JAVA_OPTS="-Dorg.apache.commons.jelly.tags.fmt.timeZone=Australia/Melbourne -Djenkins.install.runSetupWizard=false" \
+#   --group-add $(getent group docker | cut -d: -f3) \
+  jenkins:local
 
-docker-compose up -d
-check_success "failed to start jenkins container"
 # docker run -d \
 #     --name jenkins \
 #     -p 8080:8080 -p 50000:50000 \
