@@ -63,6 +63,7 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 # RUN groupadd -g 999 docker
 RUN usermod -aG docker jenkins
+RUN mkdir -p /var/jenkins_home/workspace && chown -R jenkins:jenkins /var/jenkins_home/workspace
 USER jenkins
 ENTRYPOINT ["jenkins.sh"]
 
