@@ -10,7 +10,11 @@ check_success() {
 docker build -t shaun/jenkins:1.0.0 .
 check_success "failed to build jenkins docker image"
 
-docker-compose up --build
+docker-compose build
+check_success "failed to build jenkins docker image"
+
+docker-compose up -d
+check_success "failed to start jenkins container"
 # docker run -d \
 #     --name jenkins \
 #     -p 8080:8080 -p 50000:50000 \

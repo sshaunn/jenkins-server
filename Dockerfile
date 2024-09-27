@@ -48,6 +48,7 @@ COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 # Install Jenkins plugins
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
+RUN chmod 666 /var/run/docker.sock
 
 USER jenkins
 
