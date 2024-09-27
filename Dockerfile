@@ -19,21 +19,9 @@ RUN apt-get update && apt-get install -y \
   lsb-release \
   sudo \
   make \
-  apt-utils
-
-# Install Docker CLI
-# Add Docker's official GPG key
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-
-# Set up the stable Docker repository
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-RUN apt-get update && \
-  apt-get install -y docker-ce=5:25.0.5-1~debian.$(lsb_release -rs)~$(lsb_release -cs) \
-  docker-ce-cli=5:25.0.5-1~debian.$(lsb_release -rs)~$(lsb_release -cs) \
-  containerd.io \
-  docker-buildx-plugin \
-  docker-compose-plugin
+  apt-utils \
+  curl -fsSL https://get.docker.com -o get-docker.sh && \
+  sh get-docker.sh --version 24.0.7
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.24.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
