@@ -2,6 +2,10 @@ FROM jenkins/jenkins:2.462.1-lts
 
 USER root
 
+# Create Jenkins user and group
+RUN groupadd -g 1000 jenkins && \
+  useradd -d /home/jenkins -u 1000 -g jenkins -m -s /bin/bash jenkins
+
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
   apt-transport-https \
@@ -21,7 +25,7 @@ RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /
 RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Install Docker
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-get update && apt-get install -y \
   apt-transport-https \
   ca-certificates \
   curl \
@@ -30,9 +34,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --batch --yes --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg && \
   echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null && \
   apt-get update && \
-  apt-get install -y --no-install-recommends docker-ce docker-ce-cli containerd.io && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  apt-get install -y docker-ce docker-ce-cli containerd.io
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.24.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
