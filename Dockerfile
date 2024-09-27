@@ -37,9 +37,6 @@ RUN curl -OL https://golang.org/dl/go1.22.7.linux-amd64.tar.gz && \
   tar -C /usr/local -xzf go1.22.7.linux-amd64.tar.gz && \
   rm go1.22.7.linux-amd64.tar.gz
 
-# Add jenkins user to docker group
-RUN usermod -aG docker jenkins
-
 # Set environment variables
 ENV CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
 ENV JAVA_OPTS="-Xmx4g -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=myjenkins.loca.lt"

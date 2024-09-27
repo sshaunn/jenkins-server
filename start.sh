@@ -1,5 +1,15 @@
 #!/bin/bash
 
+echo "$SUDO_PASSWORD" > /tmp/sudo_pass.sh
+chmod +x /tmp/sudo_pass.sh
+export SUDO_ASKPASS=/tmp/sudo_pass.sh
+sudo_command() {
+    sudo -A $@
+}
+
+# Add the current user to the docker group
+sudo_command usermod -aG docker $USER
+
 check_success() {
   if [ $? -ne 0 ]; then
       echo "Error: $1"
@@ -13,7 +23,8 @@ sudo usermod -aG docker jenkins
 docker build -t jenkins:local .
 check_success "failed to build jenkins docker image"
 
-# docker run -d \
+# docker run -d \sp100809
+
 #   --name jenkins \
 #   -p 8080:8080 \
 #   -p 50000:50000 \
@@ -43,3 +54,5 @@ docker run -d \
 
 # Set proper permissions for Docker socket
 sudo chmod 666 /var/run/docker.sock
+
+rm /tmp/sudo_pass.sh
