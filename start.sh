@@ -57,7 +57,6 @@ docker run -d \
     -v jenkins_home:/var/jenkins_home \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v $(which docker):/usr/bin/docker:ro \
-    -v /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro \
     --env-file .env \
     -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
     -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=myjenkins.loca.lt" \
