@@ -106,12 +106,16 @@ USER ${user}
 RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
 RUN rm -rf ${JENKINS_CONFIG_HOME}/plugins.txt
 
+USER root
+
+COPY --chown=${user}:${group} jenkins-support /usr/local/bin/jenkins-support
+COPY --chown=${user}:${group} jenkins.sh /usr/local/bin/jenkins.sh
+RUN chmod +x /usr/local/bin/jenkins.sh
+
+USER ${user}
+
 HEALTHCHECK --interval=30s --timeout=30s --start-period=1m --retries=3 \
     CMD curl -f http://localhost:${http_port}/login || exit 1
-
-COPY jenkins-support /usr/local/bin/jenkins-support
-COPY jenkins.sh /usr/local/bin/jenkins.sh
-RUN chmod +x /usr/local/bin/jenkins.sh
 
 ENTRYPOINT ["/usr/local/bin/jenkins.sh"]
 
