@@ -16,6 +16,7 @@ services:
     environment:
       - CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=myjenkins.loca.lt
+    user: root
     restart: always
 
 volumes:

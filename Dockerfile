@@ -48,12 +48,14 @@ COPY jenkins.yaml /var/jenkins_home/jenkins.yaml
 COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 # Install Jenkins plugins
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
-RUN chmod 666 /var/run/docker.sock
+# Copy the entrypoint script
+COPY entrypoint.sh /entrypoint.sh
 
-USER jenkins
+# Make sure the script is executable
+RUN chmod +x /entrypoint.sh
+
+# Set the entrypoint
+ENTRYPOINT ["/entrypoint.sh"]
 
 # Expose ports
 EXPOSE 8080 50000
-
-# Set the entry point
-ENTRYPOINT ["jenkins.sh"]
