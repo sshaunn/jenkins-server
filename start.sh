@@ -7,7 +7,7 @@ check_success() {
   fi
 }
 
-docker build -t custom-jenkins:local .
+docker build -t jenkins:local .
 check_success "failed to build jenkins docker image"
 
 docker run -d \
@@ -16,14 +16,12 @@ docker run -d \
   -p 50000:50000 \
   -v jenkins_home:/var/jenkins_home \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  -e GIT_URL_DOCKER_IMAGE_JENKINS=https://github.com/your-repo/jenkins-config.git \
-  -e GIT_BRANCH_DOCKER_IMAGE_JENKINS=main \
-  -e GIT_COMMIT_DOCKER_IMAGE_JENKINS=latest \
-  -e GITHUB_USERNAME=your-username \
-  -e JENKINS_VERSION=2.462.1-lts \
+  --env-file .env \
+  -e GIT_URL_DOCKER_IMAGE_JENKINS=${GITHUB_REPO} \
+  -e GIT_BRANCH_DOCKER_IMAGE_JENKINS=${BRANCH_NAME} \
+  -e GITHUB_USERNAME=${GITHUB_USERNAME} \
   -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
-  -e JAVA_OPTS="-Dorg.apache.commons.jelly.tags.fmt.timeZone=Australia/Melbourne -Djenkins.install.runSetupWizard=false" \
-#   --group-add $(getent group docker | cut -d: -f3) \
+  --group-add $(getent group docker | cut -d: -f3) \
   jenkins:local
 
 # docker run -d \
