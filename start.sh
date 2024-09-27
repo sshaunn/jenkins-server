@@ -1,7 +1,20 @@
 #!/bin/bash
 
-echo "$SUDO_PASSWORD" > /tmp/sudo_pass.sh
+# Source the .env file
+set -a
+source .env
+set +a
+
+# Create a temporary script to echo the password
+cat << EOF > /tmp/sudo_pass.sh
+#!/bin/bash
+echo "\$SUDO_PASSWORD"
+EOF
+
+# Ensure the script has the correct permissions and line endings
 chmod +x /tmp/sudo_pass.sh
+dos2unix /tmp/sudo_pass.sh 2>/dev/null || true
+
 export SUDO_ASKPASS=/tmp/sudo_pass.sh
 sudo_command() {
     sudo -A $@
