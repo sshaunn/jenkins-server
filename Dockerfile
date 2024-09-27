@@ -85,16 +85,22 @@ EXPOSE ${agent_port}
 
 ENV COPY_REFERENCE_FILE_LOG ${JENKINS_HOME}/copy_reference_file.log
 
-COPY install-plugins.sh /usr/local/bin/install-plugins.sh
-COPY plugins.txt ${JENKINS_CONFIG_HOME}/plugins.txt
+# COPY install-plugins.sh /usr/local/bin/install-plugins.sh
+# COPY plugins.txt ${JENKINS_CONFIG_HOME}/plugins.txt
 
-RUN chown ${user}:${group} /usr/local/bin/install-plugins.sh ${JENKINS_CONFIG_HOME}/plugins.txt \
-    && chmod +x /usr/local/bin/install-plugins.sh
+# RUN chown ${user}:${group} /usr/local/bin/install-plugins.sh ${JENKINS_CONFIG_HOME}/plugins.txt \
+#     && chmod +x /usr/local/bin/install-plugins.sh
+
+# USER ${user}
+
+# RUN /usr/local/bin/install-plugins.sh < ${JENKINS_CONFIG_HOME}/plugins.txt
+
+# RUN rm -rf ${JENKINS_CONFIG_HOME}/plugins.txt
+
+COPY --chown=${user}:${group} plugins.txt /usr/share/jenkins/ref/plugins.txt
 
 USER ${user}
-
-RUN /usr/local/bin/install-plugins.sh < ${JENKINS_CONFIG_HOME}/plugins.txt
-
+RUN jenkins-plugin-cli --plugin-file /usr/share/jenkins/ref/plugins.txt
 RUN rm -rf ${JENKINS_CONFIG_HOME}/plugins.txt
 
 HEALTHCHECK --interval=30s --timeout=30s --start-period=1m --retries=3 \
