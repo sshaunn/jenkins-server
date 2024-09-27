@@ -19,12 +19,12 @@ RUN apt-get update && apt-get install -y \
   lsb-release \
   sudo \
   make \
-  apt-utils
-
-# Install Docker
-RUN curl -fsSL https://get.docker.com -o get-docker.sh && \
-  chmod +x get-docker.sh && \
-  sh ./get-docker.sh --version 24.0.7
+  apt-utils \
+  docker-ce \
+  docker-ce-cli \
+  containerd.io \
+  docker-buildx-plugin \
+  docker-compose-plugin
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.24.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
