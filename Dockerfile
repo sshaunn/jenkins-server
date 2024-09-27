@@ -61,7 +61,7 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 
 # Install Jenkins plugins
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
-RUN groupadd -g 999 docker
+# RUN groupadd -g 999 docker
 RUN usermod -aG docker jenkins
 USER jenkins
 ENTRYPOINT ["jenkins.sh"]
