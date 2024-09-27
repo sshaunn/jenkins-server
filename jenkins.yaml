@@ -175,8 +175,8 @@ tool:
       properties:
       - installSource:
           installers:
-          - fromDocker:
-              version: "24.0.5"
+          - docker:
+              version: "latest"
   git:
     installations:
     - home: "git"

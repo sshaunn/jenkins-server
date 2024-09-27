@@ -66,5 +66,6 @@ docker run -d \
 
 # Set proper permissions for Docker socket
 sudo_command chmod 666 /var/run/docker.sock
+sudo_command usermod -aG docker jenkins
 
 rm /tmp/sudo_pass.sh
