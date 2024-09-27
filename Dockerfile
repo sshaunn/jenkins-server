@@ -17,8 +17,7 @@ ENV JENKINS_CONFIG_HOME=/var/jenkins_home
 
 RUN mkdir -p ${JENKINS_CONFIG_HOME}
 
-RUN apt-get update && \
-    apt-get install -y \
+RUN apt-get update && apt-get install -y \
     libarchive-tools \
     git \
     openssh-client \
@@ -33,15 +32,15 @@ RUN apt-get update && \
     sudo \
     make \
     apt-utils \
-    docker-ce=5:25.0.5-1~debian.$(lsb_release -rs)~$(lsb_release -cs) \
-    docker-ce-cli=5:25.0.5-1~debian.$(lsb_release -rs)~$(lsb_release -cs) \
-    containerd.io \
-    docker-buildx-plugin \
-    docker-compose-plugin \
     && curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
     && echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
     && apt-get update \
-    && apt-get install -y docker-ce-cli docker-compose-plugin \
+    && apt-get install -y \
+    docker-ce \
+    docker-ce-cli \
+    containerd.io \
+    docker-buildx-plugin \
+    docker-compose-plugin \
     && curl -OL https://golang.org/dl/go1.22.7.linux-amd64.tar.gz \
     && tar -C /usr/local -xzf go1.22.7.linux-amd64.tar.gz \
     && rm go1.22.7.linux-amd64.tar.gz \
