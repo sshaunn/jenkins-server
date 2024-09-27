@@ -10,7 +10,8 @@ RUN apt-get update && apt-get install -y \
     gnupg \
     lsb-release \
     sudo \
-    make
+    make \
+    apt-utils
 
 # Install Docker CLI
 # Add Docker's official GPG key
@@ -36,7 +37,6 @@ RUN curl -OL https://golang.org/dl/go1.22.7.linux-amd64.tar.gz && \
     tar -C /usr/local -xzf go1.22.7.linux-amd64.tar.gz && \
     rm go1.22.7.linux-amd64.tar.gz
 
-RUN curl -fsSL https://get.docker.com | sh -
 RUN usermod -aG docker jenkins
 # Set environment variables
 ENV CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
