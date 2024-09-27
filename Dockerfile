@@ -44,6 +44,9 @@ RUN apt-get update && apt-get install -y \
     && curl -OL https://golang.org/dl/go1.22.7.linux-amd64.tar.gz \
     && tar -C /usr/local -xzf go1.22.7.linux-amd64.tar.gz \
     && rm go1.22.7.linux-amd64.tar.gz \
+    && curl -fsSL https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/2.12.11/jenkins-plugin-manager-2.12.11.jar -o /usr/local/bin/jenkins-plugin-cli.jar \
+    && echo '#!/bin/sh\njava -jar /usr/local/bin/jenkins-plugin-cli.jar "$@"' > /usr/local/bin/jenkins-plugin-cli \
+    && chmod +x /usr/local/bin/jenkins-plugin-cli \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
