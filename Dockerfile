@@ -49,8 +49,8 @@ RUN apt-get update && apt-get install -y \
 
 ARG user=jenkins
 ARG group=jenkins
-ARG uid=1000
-ARG gid=1000
+ARG uid=10000
+ARG gid=10000
 ARG http_port=8080
 ARG agent_port=50000
 ARG JENKINS_HOME=/var/jenkins_home

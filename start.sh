@@ -21,6 +21,7 @@ docker run -d \
   -e GIT_COMMIT_DOCKER_IMAGE_JENKINS=latest \
   -e GITHUB_USERNAME=your-username \
   -e JENKINS_VERSION=2.462.1-lts \
+  -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
   -e JAVA_OPTS="-Dorg.apache.commons.jelly.tags.fmt.timeZone=Australia/Melbourne -Djenkins.install.runSetupWizard=false" \
 #   --group-add $(getent group docker | cut -d: -f3) \
   jenkins:local
