@@ -2,9 +2,13 @@ FROM jenkins/jenkins:2.462.1-lts
 
 USER root
 
-# Create Jenkins user and group
-RUN groupadd -g 1000 jenkins && \
-  useradd -d /home/jenkins -u 1000 -g jenkins -m -s /bin/bash jenkins
+# Create Jenkins user and group if they don't exist
+RUN if ! getent group jenkins > /dev/null 2>&1; then \
+  groupadd -g 1000 jenkins; \
+  fi && \
+  if ! id jenkins > /dev/null 2>&1; then \
+  useradd -d /home/jenkins -u 1000 -g jenkins -m -s /bin/bash jenkins; \
+  fi
 
 # Install necessary packages
 RUN apt-get update && apt-get install -y \
