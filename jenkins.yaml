@@ -13,8 +13,10 @@ jenkins:
   - "JNLP4-connect"
   - "Ping"
   authorizationStrategy:
-    loggedInUsersCanDoAnything:
-      allowAnonymousRead: false
+    globalMatrix:
+      permissions:
+        - "Overall/Administer:admin"
+        - "Overall/Read:authenticated"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
@@ -63,6 +65,17 @@ jenkins:
             emailAddress: "sp100809@gmail.com"
         - "apiToken"
   slaveAgentPort: 50000
+  nodes:
+    - permanent:
+        name: "static-agent"
+        remoteFS: "/home/jenkins"
+        launcher:
+          jnlp:
+            workDirSettings:
+              disabled: true
+              failIfWorkDirIsMissing: false
+              internalDir: "remoting"
+              workDirPath: "/tmp"
   updateCenter:
     sites:
     - id: "default"

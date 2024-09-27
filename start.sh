@@ -7,32 +7,39 @@ check_success() {
   fi
 }
 
+sudo groupadd docker || true
+sudo usermod -aG docker jenkins
+
 docker build -t jenkins:local .
 check_success "failed to build jenkins docker image"
 
-docker run -d \
-  --name jenkins \
-  -p 8080:8080 \
-  -p 50000:50000 \
-  -v jenkins_home:/var/jenkins_home \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  --env-file .env \
-  -e GIT_URL_DOCKER_IMAGE_JENKINS=${GITHUB_REPO} \
-  -e GIT_BRANCH_DOCKER_IMAGE_JENKINS=${BRANCH_NAME} \
-  -e GITHUB_USERNAME=${GITHUB_USERNAME} \
-  -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
-  --group-add $(getent group docker | cut -d: -f3) \
-  jenkins:local
-
 # docker run -d \
-#     --name jenkins \
-#     -p 8080:8080 -p 50000:50000 \
-#     -v jenkins_home:/var/jenkins_home \
-#     -v /var/run/docker.sock:/var/run/docker.sock \
-#     -v $(which docker):/usr/bin/docker \
-#     -v /usr/local/bin/docker-compose:/usr/local/bin/docker-compose \
-#     --env-file .env \
-#     -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
-#     -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=myjenkins.loca.lt" \
-#     --restart always \
-#     shaun/jenkins:1.0.0
+#   --name jenkins \
+#   -p 8080:8080 \
+#   -p 50000:50000 \
+#   -v jenkins_home:/var/jenkins_home \
+#   -v /var/run/docker.sock:/var/run/docker.sock \
+#   --env-file .env \
+#   -e GIT_URL_DOCKER_IMAGE_JENKINS=${GITHUB_REPO} \
+#   -e GIT_BRANCH_DOCKER_IMAGE_JENKINS=${BRANCH_NAME} \
+#   -e GITHUB_USERNAME=${GITHUB_USERNAME} \
+#   -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
+#   --group-add $(getent group docker | cut -d: -f3) \
+#   jenkins:local
+
+docker run -d \
+    --name jenkins \
+    -p 8080:8080 -p 50000:50000 \
+    -v jenkins_home:/var/jenkins_home \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v $(which docker):/usr/bin/docker:ro \
+    -v /usr/local/bin/docker-compose:/usr/local/bin/docker-compose:ro \
+    --env-file .env \
+    -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
+    -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=myjenkins.loca.lt" \
+    --group-add $(getent group docker | cut -d: -f3) \
+    --restart always \
+    jenkins:local
+
+# Set proper permissions for Docker socket
+sudo chmod 666 /var/run/docker.sock
