@@ -21,14 +21,25 @@ RUN apt-get update && apt-get install -y \
   make
 
 # Add Docker's official GPG key
-RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+RUN install -m 0755 -d /etc/apt/keyrings
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+RUN chmod a+r /etc/apt/keyrings/docker.asc
 
-# Set up the Docker repository
-RUN echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+# Add the Docker repository to Apt sources
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-# Install Docker
-RUN apt-get update && \
-  apt-get install -y docker-ce docker-ce-cli containerd.io
+# Update apt and install Docker
+RUN apt-get update && apt-get install -y \
+  docker-ce \
+  docker-ce-cli \
+  containerd.io \
+  docker-buildx-plugin \
+  docker-compose-plugin \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 # Install Docker Compose
 RUN curl -L "https://github.com/docker/compose/releases/download/v2.24.3/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && \
@@ -50,7 +61,7 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 
 # Install Jenkins plugins
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
-
+RUN groupadd -g 999 docker
 RUN usermod -aG docker jenkins
 USER jenkins
 ENTRYPOINT ["jenkins.sh"]
