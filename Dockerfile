@@ -51,6 +51,7 @@ COPY plugins.txt /usr/share/jenkins/ref/plugins.txt
 # Install Jenkins plugins
 RUN jenkins-plugin-cli -f /usr/share/jenkins/ref/plugins.txt
 
+RUN usermod -aG docker jenkins
 USER jenkins
 ENTRYPOINT ["jenkins.sh"]
 

@@ -21,7 +21,7 @@ sudo_command() {
 }
 
 # Add the current user to the docker group
-sudo_command usermod -aG docker $USER
+# sudo_command usermod -aG docker $USER
 
 check_success() {
   if [ $? -ne 0 ]; then
@@ -30,8 +30,8 @@ check_success() {
   fi
 }
 
-sudo groupadd docker || true
-sudo usermod -aG docker jenkins
+# sudo groupadd docker || true
+# sudo usermod -aG docker jenkins
 
 docker build -t jenkins:local .
 check_success "failed to build jenkins docker image"
@@ -53,6 +53,7 @@ check_success "failed to build jenkins docker image"
 
 docker run -d \
     --name jenkins \
+    --privileged \
     -p 8080:8080 -p 50000:50000 \
     -v jenkins_home:/var/jenkins_home \
     -v /var/run/docker.sock:/var/run/docker.sock \
@@ -65,7 +66,7 @@ docker run -d \
     jenkins:local
 
 # Set proper permissions for Docker socket
-sudo_command chmod 666 /var/run/docker.sock
-sudo_command usermod -aG docker jenkins
+# sudo_command chmod 666 /var/run/docker.sock
+# sudo_command usermod -aG docker jenkins
 
 rm /tmp/sudo_pass.sh
