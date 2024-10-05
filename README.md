@@ -23,7 +23,7 @@ This Jenkins configuration is designed to automate the build, test, and Docker i
 docker run -d \
     --name jenkins \
     --privileged \
-    -p 8080:8080 -p 50000:50000 \
+    -p 8088:8088 -p 50000:50000 \
     -v jenkins_home:/var/jenkins_home \
     --env-file .env \
     -v /var/run/docker.sock:/var/run/docker.sock \
@@ -38,7 +38,7 @@ docker run -d \
 
 ### 2. Initiate Access
 
-- If you can host home server, then you can access Jenkins at http://<your-home-server-ip>:8080
+- If you can host home server, then you can access Jenkins at http://<your-home-server-ip>:8
   asking chatgpt how to config your own home server
 - Retrieve the initial admin password:
 
