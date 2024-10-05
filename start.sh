@@ -53,13 +53,13 @@ check_success "failed to build jenkins docker image"
 
 docker run -d \
     --name jenkins \
-    -p 8089:8089 -p 50000:50000 \
+    -p 8088:8088 -p 50000:50000 \
     -v jenkins_home:/var/jenkins_home \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -e DOCKER_HOST=unix:///var/run/docker.sock \
     --env-file .env \
     -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
-    -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=myjenkins.loca.lt" \
+    -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=192.168.0.66:8088" \
     --restart always \
     jenkins:local
 

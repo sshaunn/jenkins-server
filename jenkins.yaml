@@ -148,7 +148,7 @@ unclassified:
   junitTestResultStorage:
     storage: "file"
   location:
-    url: http://192.168.0.66:8089
+    url: https://myjenkins.loca.lt
     adminAddress: "sp100809@gmail.com"
   mailer:
     charset: "UTF-8"

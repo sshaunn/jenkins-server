@@ -52,7 +52,7 @@ RUN curl -OL https://golang.org/dl/go1.22.7.linux-amd64.tar.gz && \
 
 # Set environment variables
 ENV CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml
-ENV JAVA_OPTS="-Xmx4g -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=192.168.0.66:8089"
+ENV JAVA_OPTS="-Xmx4g -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=192.168.0.66:8088"
 ENV PATH="/usr/local/go/bin:${PATH}"
 
 # Copy Configuration as Code file
@@ -67,4 +67,4 @@ RUN mkdir -p /var/jenkins_home/workspace && chown -R jenkins:jenkins /var/jenkin
 USER jenkins
 ENTRYPOINT ["jenkins.sh"]
 
-EXPOSE 8080 50000
+EXPOSE 8088 50000
