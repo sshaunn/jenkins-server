@@ -1,3 +1,0 @@
-umask 0007
-chmod -Rf o-rw /var/jenkins_home || true
-chmod -Rf o-rw /usr/share/jenkins/ref || true
