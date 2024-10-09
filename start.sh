@@ -36,21 +36,6 @@ check_success() {
 docker build -t jenkins:local .
 check_success "failed to build jenkins docker image"
 
-# docker run -d \sp100809
-
-#   --name jenkins \
-#   -p 8080:8080 \
-#   -p 50000:50000 \
-#   -v jenkins_home:/var/jenkins_home \
-#   -v /var/run/docker.sock:/var/run/docker.sock \
-#   --env-file .env \
-#   -e GIT_URL_DOCKER_IMAGE_JENKINS=${GITHUB_REPO} \
-#   -e GIT_BRANCH_DOCKER_IMAGE_JENKINS=${BRANCH_NAME} \
-#   -e GITHUB_USERNAME=${GITHUB_USERNAME} \
-#   -e CASC_JENKINS_CONFIG=/var/jenkins_home/jenkins.yaml \
-#   --group-add $(getent group docker | cut -d: -f3) \
-#   jenkins:local
-
 docker run -d \
     --name jenkins \
     -p 8088:8088 -p 50000:50000 \
@@ -62,9 +47,10 @@ docker run -d \
     -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.TcpSlaveAgentListener.hostName=192.168.0.66:8088" \
     --restart always \
     jenkins:local
+check_success "failed to startup jenkins docker container..."
 
-# Set proper permissions for Docker socket
-# sudo_command chmod 666 /var/run/docker.sock
-# sudo_command usermod -aG docker jenkins
-
+docker network create integration-test-network
+check_success "failed to create docker network..."
+docker network connect integration-test-network jenkins
+check_success "failed to connect docker network 'integration-test-network' to Jenkins..."
 rm /tmp/sudo_pass.sh
